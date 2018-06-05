@@ -15,6 +15,25 @@ injectGlobal`
   }
 `;
 
+const Container = styled.div`
+  padding: 25px 15px;
+  margin: 25px auto;
+  box-shadow: -5px 5px 25px #cee4e5;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: all .2s ease;
+  
+  @media (min-width: 576px) {
+    max-width: 540px;
+  }
+  @media (min-width: 768px) {
+    max-width: 720px;
+  }
+  @media (min-width: 992px) {
+    max-width: 960px;
+  }
+`;
+
 const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -35,10 +54,10 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <header>
           <User />
-          <Header name="TODO App" />
+          <Header name="ToDo List" />
         </header>
         <main>
           <ButtonsWrapper>
@@ -48,7 +67,7 @@ class App extends Component {
           </ButtonsWrapper>
           <TaskList taskList={this.state.taskList} />
         </main>
-      </div>
+      </Container>
     );
   }
 }

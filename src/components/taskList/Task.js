@@ -22,10 +22,19 @@ const TaskElement = styled.li`
   width: 100%;
   padding-top: 35px;
   margin: 15px 0;
+  transition: all .2s ease;
+
+  &:hover {
+    transform: scale(1.05)
+  }
 
   &:hover ${ButtonsWrapper} {
-    left: 100%;
     opacity: 1;
+    left: calc(100% - 120px);
+
+    @media (min-width: 576px) {
+      left: 100%;
+    }
   }
 `;
 
@@ -34,11 +43,20 @@ const TaskNumber = styled.div`
   background-color: #41acf4;
   color: #ffffff;
   font-size: 1.1rem;
-  padding: 5px 10px 5px 25px;
+  width: calc(100% - 20px);
+  padding: 5px 10px;
   margin: 0;
-  border-radius: 15px;
+  border-radius: 5px;
   top: 0;
-  left: -40px;
+  left: 0;
+  cursor: default;
+
+  @media (min-width: 576px) {
+    width: auto;
+    padding: 5px 10px 5px 25px;
+    border-radius: 15px;
+    left: -40px;
+  }
 `;
 
 const TaskText = styled.p`
@@ -47,6 +65,7 @@ const TaskText = styled.p`
   margin: 0;
   padding: 10px;
   font-size: 1.3rem;
+  cursor: default;
 `;
 
 const Task = ({ index, task }) => (
