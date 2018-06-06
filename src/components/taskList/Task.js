@@ -2,87 +2,49 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import colors from '../../constants/colors';
 import TaskButton from './TaskButton';
 
-const ButtonsWrapper = styled.div`
-  position: absolute;
-  top: -10px;
-  left: 0;
+const TaskElement = styled.li`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+  border-bottom: solid 3px ${colors.shadeLight};
+  transition: all .2s;
+`;
+
+const TaskNumber = styled.p`
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  opacity: 0;
-  transition: all .2s ease .2s;
-`;
-
-const TaskElement = styled.li`
-  position: relative;
-  width: 100%;
-  padding-top: 35px;
-  margin: 15px 0;
-  transition: all .2s ease;
-
-  &:hover {
-    transform: scale(1.05)
-  }
-
-  &:hover ${ButtonsWrapper} {
-    opacity: 1;
-    left: calc(100% - 120px);
-
-    @media (min-width: 576px) {
-      left: 100%;
-    }
-  }
-`;
-
-const TaskNumber = styled.div`
-  position: absolute;
-  background-color: #41acf4;
-  color: #ffffff;
-  font-size: 1.1rem;
-  width: calc(100% - 20px);
-  padding: 5px 10px;
-  margin: 0;
-  border-radius: 5px;
-  top: 0;
-  left: 0;
-  cursor: default;
-
-  @media (min-width: 576px) {
-    width: auto;
-    padding: 5px 10px 5px 25px;
-    border-radius: 15px;
-    left: -40px;
-  }
+  font-weight: 600;
+  color: ${colors.shadeDark};
 `;
 
 const TaskText = styled.p`
-  box-sizing: border-box;
-  width: 100%;
   margin: 0;
-  padding: 10px;
-  font-size: 1.3rem;
-  cursor: default;
+  padding: 0;
+  margin-top: 5px;
+  font-size: .9rem;
+  text-align: justify;
+  color: ${props => props.taskState ? `${colors.shadeMedium}` : `${colors.black}`};
+  text-decoration: ${props => props.taskState ? 'line-through' : 'none'};
 `;
 
-const Task = ({ index, task }) => (
+const Task = ({ index, task, taskState, taskStateChange }) => (
   <TaskElement>
-    <TaskNumber>
-      Task number {index+1}
-      <ButtonsWrapper>
-        <TaskButton actionType="delete" />
-        <TaskButton actionType="complete" />
-      </ButtonsWrapper>
-    </TaskNumber>
-    <TaskText>{task}</TaskText>
+    <TaskButton index={index} taskState={taskState} taskStateChange={taskStateChange} />
+    <div>
+      <TaskNumber>Task number {index+1}</TaskNumber>
+      <TaskText taskState={taskState}>{task}</TaskText>
+    </div>
   </TaskElement>
 );
 
 Task.propTypes = {
   index: PropTypes.number.isRequired,
+  taskState: PropTypes.bool.isRequired,
+  taskStateChange: PropTypes.func.isRequired,
   task: PropTypes.string
 }
 

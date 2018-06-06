@@ -2,40 +2,45 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import colors from '../../constants/colors';
+
 const Button = styled.button`
   width: 30px;
   height: 30px;
-  margin: 10px;
+  margin: 5px 15px 5px 0;
+  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
   font-weight: 600;
   line-height: 1;
-  background-color: ${props => props.actionType === 'complete' ? '#42f47d' : '#f44941'};
-  color: #ffffff;
-  border: none;
-  outline: none;
+  color: ${colors.white};
+  border: solid 2px  ${props => props.taskState ? `${colors.success}` : `${colors.shadeDark}`};
+  background: ${props => props.taskState ? `${colors.success}` : `${colors.white}`};
   border-radius: 50%;
   cursor: pointer;
   transition: all .2s;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 `;
 
-const TaskButton = ({ actionType }) => (
+const TaskButton = ({ index, taskState, taskStateChange }) => (
   <Button 
     type="button" 
-    actionType={actionType}
+    taskState={taskState}
+    onClick={() => taskStateChange(index)}
   >
-    {actionType === "complete" ? <span>&#10003;</span> : <span>&#10005;</span>}
+    &#10003;
   </Button>
 );
 
 TaskButton.propTypes = {
-  actionType: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  taskState: PropTypes.bool.isRequired,
+  taskStateChange: PropTypes.func.isRequired,
 }
 
 export default TaskButton;

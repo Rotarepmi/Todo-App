@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled, { injectGlobal } from 'styled-components';
 
+import colors from '../constants/colors';
 import User from './user/User';
 import Header from './Header';
 import ActionButton from './ActionButton';
@@ -15,29 +16,16 @@ injectGlobal`
   }
 `;
 
-const Container = styled.div`
-  padding: 25px 15px;
-  margin: 25px auto;
-  box-shadow: -5px 5px 25px #cee4e5;
-  box-sizing: border-box;
-  border-radius: 5px;
-  transition: all .2s ease;
-  
-  @media (min-width: 576px) {
-    max-width: 540px;
-  }
-  @media (min-width: 768px) {
-    max-width: 720px;
-  }
-  @media (min-width: 992px) {
-    max-width: 960px;
-  }
-`;
-
 const ButtonsWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-bottom: solid 3px ${colors.shadeLight}; 
+
+  @media (min-width: 375px) {
+    flex-direction: row;
+  }
 `;
 
 class App extends Component {
@@ -45,29 +33,54 @@ class App extends Component {
     super();
     this.state = {
       taskList: [
-        'Lorem ipsum dolor sit amet malerum di sertio esterntie cullo prismo des caluis farratus',
-        'Test 2',
-        'Test 3'
+        { 
+          task: 'Lorem ipsum dolor sit amet malerum di sertio esterntie cullo prismo des caluis farratus',
+          taskState: false
+        },
+        {
+          task: 'Lorem ipsum dolor sit',
+          taskState: true
+        },
+        {
+          task: 'Test 3',
+          taskState: false
+        }        
       ]
     }
   }
 
+  taskStateChange = (index) => {
+    let newState = Object.assign({}, this.state);
+    newState.taskList[index].taskState = !newState.taskList[index].taskState;
+    this.setState(newState);
+  }
+
+  addTask = () => {
+
+  }
+
+  removeTask = () => {
+
+  }
+
+  clearTaskList = () => {
+
+  }
+
   render() {
     return (
-      <Container>
-        <header>
-          <User />
-          <Header name="ToDo List" />
-        </header>
+      <div>
+        <Header name="ToDo List" />
+        {/* <User /> */}
         <main>
           <ButtonsWrapper>
             <ActionButton text="Add" actionType="add" action={this.addTask} />
             <ActionButton text="Remove" actionType="remove" action={this.removeTask} />
             <ActionButton text="Clear" actionType="clear" action={this.clearTaskList} />
           </ButtonsWrapper>
-          <TaskList taskList={this.state.taskList} />
+          <TaskList taskList={this.state.taskList} taskStateChange={this.taskStateChange} />
         </main>
-      </Container>
+      </div>
     );
   }
 }

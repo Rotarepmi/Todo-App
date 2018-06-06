@@ -7,24 +7,29 @@ import Task from './Task';
 const List = styled.ul`
   list-style: none;
   transition: all .2s ease;
-  margin: 25px 0;
+  margin: 0;
   padding: 0;
-
-  @media (min-width: 576px) {
-    border-left: solid 5px #cee4e5;
-    margin: 15px 25px 15px 75px;
-    padding: 25px 15px 15px 25px;
-  }
 `;
 
-const TaskList = ({ taskList }) => (
+const TaskList = ({ taskList=[], taskStateChange }) => (
   <List>
-    {taskList.map((task, index) => <Task key={task} index={index} task={task} />)}
+    {taskList.map((task, index) => (
+      <Task key={task.task} 
+        index={index} 
+        task={task.task} t
+        taskState={task.taskState}
+        taskStateChange={taskStateChange}
+       />
+    ))}
   </List>
 );
 
 TaskList.propTypes = {
-  taskList: PropTypes.shape(PropTypes.string)
+  taskStateChange: PropTypes.func.isRequired,
+  taskList: PropTypes.arrayOf(PropTypes.shape({
+    task: PropTypes.string,
+    taskState: PropTypes.bool
+  })),
 }
 
 TaskList.defaultProps = {

@@ -2,46 +2,65 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import colors from '../constants/colors';
+
 const Button = styled.button`
-  font-size: 1.2rem;
-  font-weight: 600;
-  background-color: transparent;
-  margin: 10px;
-  padding: 5px 10px;
-  border: solid 2px #cee4e5;
-  color: #7e8282;
-  border-radius: 5px;
-  cursor: pointer;
+  margin: 0;
+  padding: 10px;
+  border: none;
   outline: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: ${props => {
+    switch(props.actionType) {
+      case 'add':
+        return `${colors.primary}`;
+      case 'remove':
+        return `${colors.warning}`;
+      case 'clear':
+        return `${colors.danger}`;
+      default:
+        break;
+    }
+  }};
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
   transition: all .2s;
-  
+
   &:hover {
-    background-color: ${props => {
-      switch(props.actionType) {
-        case 'add':
-          return '#42d9f4';
-        case 'remove':
-          return '#f4af41';
-        case 'clear':
-          return '#f44941';
-        default:
-          break;
-      }
-    }}; 
-    border-color: ${props => {
-      switch(props.actionType) {
-        case 'add':
-          return '#42d9f4';
-        case 'remove':
-          return '#f4af41';
-        case 'clear':
-          return '#f44941';
-        default:
-          break;
-      }
-    }};
-    color: #ffffff;
+    transform: scale(1.05);
   }
+`;
+
+const ButtonIcon = styled.div`
+  width: 32px;
+  height: 32px;
+  margin: 5px 15px 5px 0;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1;
+  color: ${colors.white};
+  border: none;
+  background: ${props => {
+    switch(props.actionType) {
+      case 'add':
+        return `${colors.primary}`;
+      case 'remove':
+        return `${colors.warning}`;
+      case 'clear':
+        return `${colors.danger}`;
+      default:
+        break;
+    }
+  }};
+  border-radius: 50%;
 `;
 
 const ActionButton = ({ text, actionType, action }) => (
@@ -50,7 +69,14 @@ const ActionButton = ({ text, actionType, action }) => (
     actionType={actionType}
     onClick={action}
   >
-    {text}
+    <ButtonIcon
+      actionType={actionType}
+    >
+      {actionType === "add" && <span>&#43;</span>}
+      {actionType === "remove" && <span>&#8722;</span>}
+      {actionType === "clear" && <span>&#215;</span>}
+    </ButtonIcon>
+    <p>{text}</p>
   </Button>
 );
 
