@@ -14,10 +14,10 @@ const List = styled.ul`
 const TaskList = ({ taskList=[], taskStateChange }) => (
   <List>
     {taskList.map((task, index) => (
-      <Task key={task.task} 
+      <Task 
+        key={task.id} 
         index={index} 
-        task={task.task} t
-        taskState={task.taskState}
+        task={task}
         taskStateChange={taskStateChange}
        />
     ))}
@@ -27,8 +27,9 @@ const TaskList = ({ taskList=[], taskStateChange }) => (
 TaskList.propTypes = {
   taskStateChange: PropTypes.func.isRequired,
   taskList: PropTypes.arrayOf(PropTypes.shape({
+    complete: PropTypes.bool,
     task: PropTypes.string,
-    taskState: PropTypes.bool
+    id: PropTypes.number
   })),
 }
 

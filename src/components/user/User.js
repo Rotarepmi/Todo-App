@@ -3,17 +3,19 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import ActionButton from '../ActionButton';
-import avatar from '../../assets/default-avatar.jpg';
+import colors from '../../constants/colors';
+import avatar from '../../assets/default-avatar.png';
 
 const UserMenu = styled.div`
   position: absolute;
   overflow: hidden;
   padding: 0;
-  border: solid 1px #cee4e5;
+  border: solid 3px ${colors.shadeLight};
+  color: ${colors.black};
   border-radius: 5px;
-  background: #ffffff;
+  background: ${colors.white};
   width: 230px;
-  top: 0;
+  bottom: 0;
   right: 50%;
   opacity: 0;
   visibility: hidden;
@@ -24,13 +26,13 @@ const UserMenu = styled.div`
     font-weight: 700;
     margin: 0;
     padding: 10px 20px 10px 10px;
-    border-bottom: solid 3px #41acf4;
+    border-bottom: solid 3px ${colors.shadeLight};
   }
 `;
 
 const UserWrapper = styled.div`
-  position: fixed;
-  top: 15px;
+  position: absolute;
+  bottom: 15px;
   right: 15px;
   width: 50px;
   height: 50px;
@@ -58,7 +60,7 @@ const User = ({ }) => (
     <Image src={avatar} />
     <UserMenu>
       <p>Jakub</p>
-      <ActionButton text="Wyloguj" actionType="add" />
+      <ActionButton text="Logout" actionType="clear" />
     </UserMenu>
   </UserWrapper>
 );

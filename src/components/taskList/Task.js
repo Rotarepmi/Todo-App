@@ -27,25 +27,28 @@ const TaskText = styled.p`
   margin-top: 5px;
   font-size: .9rem;
   text-align: justify;
-  color: ${props => props.taskState ? `${colors.shadeMedium}` : `${colors.black}`};
-  text-decoration: ${props => props.taskState ? 'line-through' : 'none'};
+  color: ${props => props.complete ? `${colors.shadeMedium}` : `${colors.black}`};
+  text-decoration: ${props => props.complete ? 'line-through' : 'none'};
 `;
 
-const Task = ({ index, task, taskState, taskStateChange }) => (
+const Task = ({ index, task, taskStateChange }) => (
   <TaskElement>
-    <TaskButton index={index} taskState={taskState} taskStateChange={taskStateChange} />
+    <TaskButton id={task.id} complete={task.complete} taskStateChange={taskStateChange} />
     <div>
       <TaskNumber>Task number {index+1}</TaskNumber>
-      <TaskText taskState={taskState}>{task}</TaskText>
+      <TaskText complete={task.complete}>{task.task}</TaskText>
     </div>
   </TaskElement>
 );
 
 Task.propTypes = {
   index: PropTypes.number.isRequired,
-  taskState: PropTypes.bool.isRequired,
   taskStateChange: PropTypes.func.isRequired,
-  task: PropTypes.string
+  task: PropTypes.shape({
+    complete: PropTypes.bool,
+    task: PropTypes.string,
+    id: PropTypes.number
+  }),
 }
 
 Task.defaultProps = {

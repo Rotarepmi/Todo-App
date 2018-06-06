@@ -16,8 +16,8 @@ const Button = styled.button`
   font-weight: 600;
   line-height: 1;
   color: ${colors.white};
-  border: solid 2px  ${props => props.taskState ? `${colors.success}` : `${colors.shadeDark}`};
-  background: ${props => props.taskState ? `${colors.success}` : `${colors.white}`};
+  border: solid 2px  ${props => props.complete ? `${colors.success}` : `${colors.shadeDark}`};
+  background: ${props => props.complete ? `${colors.success}` : `${colors.white}`};
   border-radius: 50%;
   cursor: pointer;
   transition: all .2s;
@@ -27,19 +27,19 @@ const Button = styled.button`
   }
 `;
 
-const TaskButton = ({ index, taskState, taskStateChange }) => (
+const TaskButton = ({ id, complete, taskStateChange }) => (
   <Button 
     type="button" 
-    taskState={taskState}
-    onClick={() => taskStateChange(index)}
+    complete={complete}
+    onClick={() => taskStateChange(id)}
   >
     &#10003;
   </Button>
 );
 
 TaskButton.propTypes = {
-  index: PropTypes.number.isRequired,
-  taskState: PropTypes.bool.isRequired,
+  complete: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
   taskStateChange: PropTypes.func.isRequired,
 }
 

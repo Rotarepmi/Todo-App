@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import colors from '../constants/colors';
 import background from '../assets/background.svg';
+// import User from './user/User';
 
 const StyledHeader = styled.header`
   position: relative;
@@ -33,6 +34,7 @@ const StyledHeader = styled.header`
 const Header = ({ name }) => (
   <StyledHeader>
     <h1>{name}</h1>
+    {/* <User /> */}
   </StyledHeader>
 );
 
