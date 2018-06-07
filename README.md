@@ -17,8 +17,9 @@ TODO: User login, database storage (firebase)
 
 ## Technology stack:
 
-* React
 * ES6
-* Redux
-* Node.js
 * Styled-components
+* React
+* Redux
+* create-react-app
+* npm
