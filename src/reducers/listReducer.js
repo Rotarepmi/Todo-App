@@ -1,33 +1,32 @@
 import {
+  LOAD_LIST,
   ADD_TASK,
   REMOVE_TASK,
   CLEAR_TASKS,
   TASK_STATE_CHANGE,
+  OPEN_MODAL,
+  CLOSE_MODAL,
+  HANDLE_ON_INPUT
 } from '../constants/listActionTypes';
 
 const initialState = {
-  taskList: [
-    {
-      task: 'test',
-      complete: true,
-      id: 1
-    },
-    {
-      task: 'test2',
-      complete: false,
-      id: 2
-    }
-  ]
+  taskList: [],
+  modalVisible: false,
+  inputValue: ''
 };
-
-let todoCounter = 3;
 
 const listReducer = (state = initialState, action) => {
   switch(action.type) {
+    case LOAD_LIST:
+      return {
+        ...state,
+        taskList: action.payload.taskList
+      }
     case ADD_TASK:
       return {
         ...state,
-        taskList: [...state.taskList, {task: action.payload.task, complete: false, id: todoCounter++}]
+        taskList: [...state.taskList, {task: state.inputValue, complete: false, id: Date.now()}],
+        inputValue: ''
       };
     case REMOVE_TASK:
       return {
@@ -40,6 +39,7 @@ const listReducer = (state = initialState, action) => {
         taskList: []
       };
     case TASK_STATE_CHANGE:
+      // reverse the selected tasks state
       const updatedList = state.taskList.map(obj => {
         if(obj.id === action.payload.id) {
           return {...obj, complete: !obj.complete}
@@ -49,6 +49,21 @@ const listReducer = (state = initialState, action) => {
       return {
         ...state,
         taskList: updatedList
+      };
+    case OPEN_MODAL:
+      return {
+        ...state,
+        modalVisible: true
+      };
+    case CLOSE_MODAL:
+      return {
+        ...state,
+        modalVisible: false
+      };
+    case HANDLE_ON_INPUT:
+      return {
+        ...state,
+        inputValue: action.payload.value
       };
     default:
       return {

@@ -68,7 +68,8 @@ const ActionButton = ({ text, actionType, action }) => (
     type="button" 
     actionType={actionType}
     onClick={action}
-  >
+  > 
+    {/* icon depends on action provided by button */}
     <ButtonIcon
       actionType={actionType}
     >

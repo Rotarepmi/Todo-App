@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import Task from './Task';
 
@@ -11,7 +12,7 @@ const List = styled.ul`
   padding: 0;
 `;
 
-const TaskList = ({ taskList=[], taskStateChange }) => (
+const TaskList = ({ taskList, taskStateChange }) => (
   <List>
     {taskList.map((task, index) => (
       <Task 
@@ -37,4 +38,9 @@ TaskList.defaultProps = {
   taskList: []
 }
 
-export default TaskList;
+const mapStateToProps = state => ({
+  taskList: state.list.taskList
+});
+
+
+export default connect(mapStateToProps)(TaskList);
