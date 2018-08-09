@@ -63,6 +63,14 @@ const ButtonIcon = styled.div`
   border-radius: 50%;
 `;
 
+const Text = styled.p`
+  display: none;
+
+  @media (min-width: 375px) {
+    display: block;
+  }
+`;
+
 const ActionButton = ({ text, actionType, action }) => (
   <Button 
     type="button" 
@@ -77,7 +85,7 @@ const ActionButton = ({ text, actionType, action }) => (
       {actionType === "remove" && <span>&#8722;</span>}
       {actionType === "clear" && <span>&#215;</span>}
     </ButtonIcon>
-    <p>{text}</p>
+    <Text>{text}</Text>
   </Button>
 );
 

@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
-import styled, { injectGlobal } from 'styled-components';
+import { injectGlobal } from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 
 import { 
   loadLocalState, 
-  addTask, 
-  removeTask, 
-  clearTasks, 
-  taskStateChange, 
-  openModal,
+  addTask,
+  taskStateChange,
   closeModal,
   handleOnInput 
 } from '../actions/listActions';
 
-import colors from '../constants/colors';
+import { loginStateChanged } from '../actions/userActions';
+
+import Login from './Login';
+import ActionButtons from './ActionButtons';
 import Header from './Header';
-import ActionButton from './ActionButton';
 import TaskList from './taskList/TaskList';
 import ModalComp from './modal/Modal';
 
@@ -29,22 +29,13 @@ injectGlobal`
   }
 `;
 
-const ButtonsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  border-bottom: solid 3px ${colors.shadeLight}; 
-
-  @media (min-width: 375px) {
-    flex-direction: row;
-  }
-`;
-
 class App extends Component {
   // load taskList saved in localStorage
   componentDidMount() {
     this.loadLocalState();
+
+    firebase.auth()
+      .onAuthStateChanged(user => this.props.loginStateChanged(!!user));
   }
 
   // when component rerenders save the list to localStorage
@@ -76,26 +67,29 @@ class App extends Component {
     this.props.handleOnInput(e.target.value);
   }
 
+  signOut = () => {
+    firebase.auth().signOut()
+  }
+
   render() {
     return (
       <div>
         <Header name="ToDo List" />
+        { (!this.props.isLoggedIn) && <Login /> }
         <main>
-          <ButtonsWrapper>
-            <ActionButton text="Add" actionType="add" action={this.props.openModal} />
-            <ActionButton text="Remove" actionType="remove" action={this.props.removeTask} />
-            <ActionButton text="Clear" actionType="clear" action={this.props.clearTasks} />
-          </ButtonsWrapper>
+          <ActionButtons />
           <TaskList taskStateChange={this.taskStateChange} />
         </main>
         {
-          this.props.modalVisible && <ModalComp 
+          this.props.modalVisible && 
+          <ModalComp 
             closeModal={this.closeModal}
             handleSubmit={this.props.addTask}
             handleOnInput={this.handleOnInput}
             inputValue={this.props.inputValue}
           />
         }
+        <button onClick={() => this.signOut()}>Logout</button>
       </div>
     );
   }
@@ -103,13 +97,12 @@ class App extends Component {
 
 App.propTypes = {
   addTask: PropTypes.func.isRequired,
-  clearTasks: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   handleOnInput: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
   loadLocalState: PropTypes.func.isRequired,
+  loginStateChanged: PropTypes.func.isRequired,
   modalVisible: PropTypes.bool.isRequired,
-  openModal: PropTypes.func.isRequired,
-  removeTask: PropTypes.func.isRequired,
   taskStateChange: PropTypes.func.isRequired, 
   inputValue: PropTypes.string,
   taskList: PropTypes.arrayOf(PropTypes.shape({
@@ -127,16 +120,15 @@ App.defaultProps = {
 const mapStateToProps = state => ({
   taskList: state.list.taskList,
   modalVisible: state.list.modalVisible,
-  inputValue: state.list.inputValue
-})
+  inputValue: state.list.inputValue,
+  isLoggedIn: state.user.isLoggedIn
+});
 
 const mapDispatchToProps = {
   addTask,
-  clearTasks,
   loadLocalState,
-  removeTask,
+  loginStateChanged,
   taskStateChange,
-  openModal,
   closeModal,
   handleOnInput
 };
