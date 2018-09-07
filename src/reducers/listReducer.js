@@ -1,15 +1,15 @@
 import {
   LOAD_LIST,
   ADD_TASK,
+  SAVE_TASK,
   REMOVE_TASK,
   CLEAR_TASKS,
   TASK_STATE_CHANGE,
-  OPEN_MODAL,
-  CLOSE_MODAL,
   HANDLE_ON_INPUT
 } from '../constants/listActionTypes';
 
 const initialState = {
+  addTask: false,
   taskList: [],
   modalVisible: false,
   inputValue: ''
@@ -25,8 +25,14 @@ const listReducer = (state = initialState, action) => {
     case ADD_TASK:
       return {
         ...state,
+        addTask: true
+      };
+    case SAVE_TASK:
+      return {
+        ...state,
         taskList: [...state.taskList, {task: state.inputValue, complete: false, id: Date.now()}],
-        inputValue: ''
+        inputValue: '',
+        addTask: false
       };
     case REMOVE_TASK:
       return {
@@ -49,16 +55,6 @@ const listReducer = (state = initialState, action) => {
       return {
         ...state,
         taskList: updatedList
-      };
-    case OPEN_MODAL:
-      return {
-        ...state,
-        modalVisible: true
-      };
-    case CLOSE_MODAL:
-      return {
-        ...state,
-        modalVisible: false
       };
     case HANDLE_ON_INPUT:
       return {

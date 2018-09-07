@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import colors from '../constants/colors';
 
 import { 
+  addTask,
   clearTasks,
-  removeTask, 
-  openModal
+  removeTask
 } from '../actions/listActions';
 
 import ActionButton from './ActionButton';
@@ -21,30 +21,27 @@ const ButtonsWrapper = styled.div`
   border-bottom: solid 3px ${colors.shadeLight}; 
 `;
 
-const ActionButtons = ({ clearTasks, removeTask, openModal }) => (
+const ActionButtons = ({ addTask, clearTasks, removeTask }) => (
   <ButtonsWrapper>
-    <ActionButton text="Add" actionType="add" action={openModal} />
-    <ActionButton text="Remove" actionType="remove" action={removeTask} />
-    <ActionButton text="Clear" actionType="clear" action={clearTasks} />
+    <ActionButton text="Add" color="primary" action={addTask} icon="&#43;" />
+    <ActionButton text="Remove" color="warning" action={removeTask} icon="&#8722;" />
+    <ActionButton text="Clear" color="danger" action={clearTasks} icon="&#215;" />
   </ButtonsWrapper>
 );
 
 ActionButtons.propTypes = {
+  addTask: PropTypes.func.isRequired,
   clearTasks: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
   removeTask: PropTypes.func.isRequired
 }
-
 const mapStateToProps = state => ({
-  taskList: state.list.taskList,
-  modalVisible: state.list.modalVisible,
-  inputValue: state.list.inputValue
-})
+  ...state
+});
 
 const mapDispatchToProps = {
+  addTask,
   clearTasks,
-  removeTask,
-  openModal
+  removeTask
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActionButtons);

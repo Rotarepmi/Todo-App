@@ -14,14 +14,14 @@ const TaskElement = styled.li`
   transition: all .2s;
 `;
 
-const TaskNumber = styled.p`
+const TaskText = styled.p`
   margin: 0;
   padding: 0;
   font-weight: 600;
   color: ${colors.shadeDark};
 `;
 
-const TaskText = styled.p`
+const TaskNumber = styled.p`
   margin: 0;
   padding: 0;
   margin-top: 5px;
@@ -35,8 +35,8 @@ const Task = ({ index, task, taskStateChange }) => (
   <TaskElement>
     <TaskButton id={task.id} complete={task.complete} taskStateChange={taskStateChange} />
     <div>
-      <TaskNumber>Task number {index+1}</TaskNumber>
       <TaskText complete={task.complete}>{task.task}</TaskText>
+      <TaskNumber>Task number {index+1}</TaskNumber>
     </div>
   </TaskElement>
 );

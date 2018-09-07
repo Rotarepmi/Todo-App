@@ -12,18 +12,7 @@ const Button = styled.button`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: ${props => {
-    switch(props.actionType) {
-      case 'add':
-        return `${colors.primary}`;
-      case 'remove':
-        return `${colors.warning}`;
-      case 'clear':
-        return `${colors.danger}`;
-      default:
-        break;
-    }
-  }};
+  color: ${props => `${colors[props.color]}`};
   background: transparent;
   font-size: 1rem;
   font-weight: 600;
@@ -48,18 +37,7 @@ const ButtonIcon = styled.div`
   line-height: 1;
   color: ${colors.white};
   border: none;
-  background: ${props => {
-    switch(props.actionType) {
-      case 'add':
-        return `${colors.primary}`;
-      case 'remove':
-        return `${colors.warning}`;
-      case 'clear':
-        return `${colors.danger}`;
-      default:
-        break;
-    }
-  }};
+  background: ${props => `${colors[props.color]}`};
   border-radius: 50%;
 `;
 
@@ -71,19 +49,16 @@ const Text = styled.p`
   }
 `;
 
-const ActionButton = ({ text, actionType, action }) => (
+const ActionButton = ({ text, color, action, icon }) => (
   <Button 
     type="button" 
-    actionType={actionType}
+    color={color}
     onClick={action}
   > 
-    {/* icon depends on action provided by button */}
     <ButtonIcon
-      actionType={actionType}
+      color={color}
     >
-      {actionType === "add" && <span>&#43;</span>}
-      {actionType === "remove" && <span>&#8722;</span>}
-      {actionType === "clear" && <span>&#215;</span>}
+      <span>{icon}</span>
     </ButtonIcon>
     <Text>{text}</Text>
   </Button>
@@ -91,7 +66,8 @@ const ActionButton = ({ text, actionType, action }) => (
 
 ActionButton.propTypes = {
   action: PropTypes.func.isRequired,
-  actionType: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
 }
 

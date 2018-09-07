@@ -170,7 +170,6 @@ const Modal = ({ closeModal, handleSubmit, handleOnInput, inputValue }) => (
 );
 
 Modal.propTypes = {
-  closeModal: PropTypes.func.isRequired,
   handleOnInput: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   inputValue: PropTypes.string

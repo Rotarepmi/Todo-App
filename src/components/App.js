@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 
 import { 
-  loadLocalState, 
-  addTask,
-  taskStateChange,
-  closeModal,
-  handleOnInput 
+  loadLocalState,
+  taskStateChange
 } from '../actions/listActions';
 
 import { loginStateChanged } from '../actions/userActions';
@@ -18,7 +15,7 @@ import Login from './Login';
 import ActionButtons from './ActionButtons';
 import Header from './Header';
 import TaskList from './taskList/TaskList';
-import ModalComp from './modal/Modal';
+import AddTaskForm from './AddTaskForm';
 
 injectGlobal`
   html,
@@ -57,16 +54,6 @@ class App extends Component {
     this.props.taskStateChange(id);
   }
 
-  // close modal only on wrapper or button click
-  closeModal = (e) => {
-    if(e.target.id === "ModalWrapper" || e.target.id === "CloseModalBtn") this.props.closeModal();
-  }
-
-  // save inputs value
-  handleOnInput = (e) => {
-    this.props.handleOnInput(e.target.value);
-  }
-
   signOut = () => {
     firebase.auth().signOut()
   }
@@ -79,16 +66,11 @@ class App extends Component {
         <main>
           <ActionButtons />
           <TaskList taskStateChange={this.taskStateChange} />
+          {
+            this.props.addTask &&
+            <AddTaskForm />
+          }
         </main>
-        {
-          this.props.modalVisible && 
-          <ModalComp 
-            closeModal={this.closeModal}
-            handleSubmit={this.props.addTask}
-            handleOnInput={this.handleOnInput}
-            inputValue={this.props.inputValue}
-          />
-        }
         <button onClick={() => this.signOut()}>Logout</button>
       </div>
     );
@@ -96,15 +78,11 @@ class App extends Component {
 }
 
 App.propTypes = {
-  addTask: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  handleOnInput: PropTypes.func.isRequired,
+  addTask: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   loadLocalState: PropTypes.func.isRequired,
   loginStateChanged: PropTypes.func.isRequired,
-  modalVisible: PropTypes.bool.isRequired,
-  taskStateChange: PropTypes.func.isRequired, 
-  inputValue: PropTypes.string,
+  taskStateChange: PropTypes.func.isRequired,
   taskList: PropTypes.arrayOf(PropTypes.shape({
     complete: PropTypes.bool,
     task: PropTypes.string,
@@ -113,24 +91,19 @@ App.propTypes = {
 }
 
 App.defaultProps = {
-  taskList: [],
-  inputValue: ''
+  taskList: []
 }
 
 const mapStateToProps = state => ({
+  addTask: state.list.addTask,
   taskList: state.list.taskList,
-  modalVisible: state.list.modalVisible,
-  inputValue: state.list.inputValue,
   isLoggedIn: state.user.isLoggedIn
 });
 
 const mapDispatchToProps = {
-  addTask,
   loadLocalState,
   loginStateChanged,
-  taskStateChange,
-  closeModal,
-  handleOnInput
+  taskStateChange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
