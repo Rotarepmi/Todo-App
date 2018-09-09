@@ -45,9 +45,9 @@ const TaskTextWrapper = styled.div`
   animation: ${TaskSlideIn} .2s;
 `;
 
-const Task = ({ index, task, taskStateChange }) => (
+const Task = ({ index, task }) => (
   <TaskElement>
-    <TaskButton id={task.id} complete={task.complete} taskStateChange={taskStateChange} />
+    <TaskButton id={task.id} complete={task.complete} />
     <TaskTextWrapper>
       <TaskText complete={task.complete}>{task.task}</TaskText>
       <TaskNumber>Task number {index+1}</TaskNumber>

@@ -1,6 +1,7 @@
 import {
   LOAD_LIST,
   ADD_TASK,
+  CLOSE_TASK_EDITOR,
   SAVE_TASK,
   REMOVE_TASK,
   CLEAR_TASKS,
@@ -19,6 +20,10 @@ export const loadLocalState = (taskList) => (
 
 export const addTask = () => (
   { type: ADD_TASK }
+);
+
+export const closeTaskEditor = () => (
+  { type: CLOSE_TASK_EDITOR }
 );
 
 export const saveTask = () => (

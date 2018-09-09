@@ -1,6 +1,7 @@
 import {
   LOAD_LIST,
   ADD_TASK,
+  CLOSE_TASK_EDITOR,
   SAVE_TASK,
   REMOVE_TASK,
   CLEAR_TASKS,
@@ -26,6 +27,11 @@ const listReducer = (state = initialState, action) => {
       return {
         ...state,
         addTask: true
+      };
+    case CLOSE_TASK_EDITOR:
+      return {
+        ...state,
+        addTask: false
       };
     case SAVE_TASK:
       return {

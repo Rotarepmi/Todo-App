@@ -1,5 +1,6 @@
 export const LOAD_LIST = 'LOAD_LOCAL_STATE';
-export const ADD_TASK = 'ADD_TASK';
+export const ADD_TASK = 'ADD_TASK';  
+export const CLOSE_TASK_EDITOR = 'CLOSE_TASK_EDITOR';
 export const SAVE_TASK = 'SAVE_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const CLEAR_TASKS = 'CLEAR_TASKS';

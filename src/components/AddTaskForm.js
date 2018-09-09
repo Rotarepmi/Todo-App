@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import colors from '../constants/colors';
 
 import { 
+  closeTaskEditor,
   handleOnInput, 
   saveTask
 } from '../actions/listActions';
@@ -23,6 +24,7 @@ const TaskElement = styled.li`
 const TaskInput = styled.input`
   font-size: 1.05rem;
   letter-spacing: 1;
+  width: 100%;
   margin: 0;
   padding: 0;
   font-weight: 600;
@@ -48,16 +50,17 @@ const TaskNumber = styled.p`
   text-decoration: ${props => props.complete ? 'line-through' : 'none'};
 `;
 
-const AddTaskForm = ({ index, inputValue, handleOnInput, saveTask }) => (
+const AddTaskForm = ({ index, inputValue, handleOnInput, saveTask, closeTaskEditor }) => (
   <TaskElement>
-    <form onSubmit={saveTask}>
-      <TaskInput type="text" autoFocus onInput={(e) => handleOnInput(e.target.value)} value={inputValue} />
+    <form style={{ width: '100%' }} onSubmit={saveTask}>
+      <TaskInput type="text" autoFocus onBlur={() => closeTaskEditor()} onInput={(e) => handleOnInput(e.target.value)} value={inputValue} />
     </form>
     <TaskNumber>Task number {index+1}</TaskNumber>
   </TaskElement>
 );
 
 AddTaskForm.propTypes = {
+  closeTaskEditor: PropTypes.func.isRequired,
   handleOnInput: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   inputValue: PropTypes.string.isRequired,
@@ -69,6 +72,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  closeTaskEditor,
   handleOnInput,
   saveTask
 };
