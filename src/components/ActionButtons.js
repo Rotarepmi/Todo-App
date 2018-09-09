@@ -25,7 +25,7 @@ const ActionButtons = ({ addTask, clearTasks, removeTask }) => (
   <ButtonsWrapper>
     <ActionButton text="Add" color="primary" action={addTask} icon="&#43;" />
     <ActionButton text="Remove" color="warning" action={removeTask} icon="&#8722;" />
-    <ActionButton text="Clear" color="danger" action={clearTasks} icon="&#215;" />
+    <ActionButton text="Clear all" color="danger" action={clearTasks} icon="&#215;" />
   </ButtonsWrapper>
 );
 

@@ -65,10 +65,14 @@ const ActionButton = ({ text, color, action, icon }) => (
 );
 
 ActionButton.propTypes = {
-  action: PropTypes.func.isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired
+  text: PropTypes.string.isRequired,
+  action: PropTypes.func
+}
+
+ActionButton.defaultProps = {
+  action: () => {}
 }
 
 export default ActionButton;

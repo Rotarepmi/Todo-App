@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import colors from '../constants/colors';
 import background from '../assets/background.svg';
-// import User from './user/User';
+import User from './user/User';
 
 const StyledHeader = styled.header`
   position: relative;
@@ -33,8 +34,8 @@ const StyledHeader = styled.header`
 
 const Header = ({ name }) => (
   <StyledHeader>
-    <h1>{name}</h1>
-    {/* <User /> */}
+    <h1><Link style={{ textDecoration: 'none', color: colors.white }} to="/">{name}</Link></h1>
+    <User />
   </StyledHeader>
 );
 

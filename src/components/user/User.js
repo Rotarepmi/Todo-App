@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { Link } from 'react-router-dom';
 
-import ActionButton from '../ActionButton';
+import ActionButton from './../ActionButton';
 import colors from '../../constants/colors';
 import avatar from '../../assets/default-avatar.png';
 
@@ -55,20 +58,30 @@ const Image = styled.img`
   z-index: 10;
 `;
 
-const User = ({ }) => (
+const User = ({ isLoggedIn }) => (
   <UserWrapper>
     <Image src={avatar} />
     <UserMenu>
-      <p>Jakub</p>
-      <ActionButton text="Logout" actionType="clear" />
+      <p>
+      {
+        isLoggedIn ? firebase.auth().currentUser.displayName : 'User'
+      }
+      </p>
+      {
+        isLoggedIn 
+        ? <ActionButton text="Logout" color="danger" action={() => firebase.auth().signOut()} icon="&#215;" />
+        : <Link style={{ textDecoration: 'none' }} to="/login"><ActionButton text="Log in" color="primary" icon="&#10003;" /></Link>
+      }
     </UserMenu>
   </UserWrapper>
 );
 
 User.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired
 }
 
-User.defaultProps = {
-}
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn
+});
 
-export default User;
+export default connect(mapStateToProps)(User);

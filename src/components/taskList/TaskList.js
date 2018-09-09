@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Task from './Task';
+import AddTaskForm from './../AddTaskForm';
 
 const List = styled.ul`
   list-style: none;
@@ -12,21 +13,25 @@ const List = styled.ul`
   padding: 0;
 `;
 
-const TaskList = ({ taskList, taskStateChange }) => (
+const TaskList = ({ addTask, taskList }) => (
   <List>
-    {taskList.map((task, index) => (
-      <Task 
-        key={task.id} 
-        index={index} 
-        task={task}
-        taskStateChange={taskStateChange}
-       />
-    ))}
+    {
+      taskList.map((task, index) => (
+        <Task 
+          key={task.id} 
+          index={index} 
+          task={task}
+        />
+      ))
+    }
+    {
+      addTask && <AddTaskForm index={taskList.length}/>
+    }
   </List>
 );
 
 TaskList.propTypes = {
-  taskStateChange: PropTypes.func.isRequired,
+  addTask: PropTypes.bool.isRequired,
   taskList: PropTypes.arrayOf(PropTypes.shape({
     complete: PropTypes.bool,
     task: PropTypes.string,
@@ -39,8 +44,8 @@ TaskList.defaultProps = {
 }
 
 const mapStateToProps = state => ({
+  addTask: state.list.addTask,
   taskList: state.list.taskList
 });
-
 
 export default connect(mapStateToProps)(TaskList);

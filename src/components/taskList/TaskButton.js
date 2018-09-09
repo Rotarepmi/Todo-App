@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import colors from '../../constants/colors';
+
+import { taskStateChange } from './../../actions/listActions';
 
 const Button = styled.button`
   width: 30px;
@@ -40,7 +43,15 @@ const TaskButton = ({ id, complete, taskStateChange }) => (
 TaskButton.propTypes = {
   complete: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
-  taskStateChange: PropTypes.func.isRequired,
+  taskStateChange: PropTypes.func.isRequired
 }
 
-export default TaskButton;
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = {
+  taskStateChange
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskButton);

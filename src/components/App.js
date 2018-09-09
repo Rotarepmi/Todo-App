@@ -3,19 +3,14 @@ import { injectGlobal } from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import { 
-  loadLocalState,
-  taskStateChange
-} from '../actions/listActions';
-
+import { loadLocalState } from '../actions/listActions';
 import { loginStateChanged } from '../actions/userActions';
 
+import MainView from './MainView';
 import Login from './Login';
-import ActionButtons from './ActionButtons';
 import Header from './Header';
-import TaskList from './taskList/TaskList';
-import AddTaskForm from './AddTaskForm';
 
 injectGlobal`
   html,
@@ -50,39 +45,24 @@ class App extends Component {
     this.props.loadLocalState(taskList);
   }
 
-  taskStateChange = (id) => {
-    this.props.taskStateChange(id);
-  }
-
-  signOut = () => {
-    firebase.auth().signOut()
-  }
-
   render() {
     return (
-      <div>
-        <Header name="ToDo List" />
-        { (!this.props.isLoggedIn) && <Login /> }
-        <main>
-          <ActionButtons />
-          <TaskList taskStateChange={this.taskStateChange} />
-          {
-            this.props.addTask &&
-            <AddTaskForm />
-          }
-        </main>
-        <button onClick={() => this.signOut()}>Logout</button>
-      </div>
+      <Router>
+        <div>
+          <Header name="ToDo List" />
+          <main>
+            <Route exact path="/" component={MainView} />
+            <Route path="/login" component={Login} />
+          </main>
+        </div>
+      </Router>
     );
   }
 }
 
 App.propTypes = {
-  addTask: PropTypes.bool.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
   loadLocalState: PropTypes.func.isRequired,
   loginStateChanged: PropTypes.func.isRequired,
-  taskStateChange: PropTypes.func.isRequired,
   taskList: PropTypes.arrayOf(PropTypes.shape({
     complete: PropTypes.bool,
     task: PropTypes.string,
@@ -95,7 +75,6 @@ App.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  addTask: state.list.addTask,
   taskList: state.list.taskList,
   isLoggedIn: state.user.isLoggedIn
 });
@@ -103,7 +82,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   loadLocalState,
   loginStateChanged,
-  taskStateChange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

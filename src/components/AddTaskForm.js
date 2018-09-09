@@ -21,6 +21,8 @@ const TaskElement = styled.li`
 `;
 
 const TaskInput = styled.input`
+  font-size: 1.05rem;
+  letter-spacing: 1;
   margin: 0;
   padding: 0;
   font-weight: 600;
@@ -49,7 +51,7 @@ const TaskNumber = styled.p`
 const AddTaskForm = ({ index, inputValue, handleOnInput, saveTask }) => (
   <TaskElement>
     <form onSubmit={saveTask}>
-      <TaskInput type="text" onInput={(e) => handleOnInput(e.target.value)} value={inputValue} />
+      <TaskInput type="text" autoFocus onInput={(e) => handleOnInput(e.target.value)} value={inputValue} />
     </form>
     <TaskNumber>Task number {index+1}</TaskNumber>
   </TaskElement>
@@ -57,6 +59,7 @@ const AddTaskForm = ({ index, inputValue, handleOnInput, saveTask }) => (
 
 AddTaskForm.propTypes = {
   handleOnInput: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
   inputValue: PropTypes.string.isRequired,
   saveTask: PropTypes.func.isRequired
 }  

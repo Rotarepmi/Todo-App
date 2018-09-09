@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 
 import colors from '../../constants/colors';
@@ -31,19 +31,32 @@ const TaskNumber = styled.p`
   text-decoration: ${props => props.complete ? 'line-through' : 'none'};
 `;
 
+const TaskSlideIn = keyframes`
+  from {
+    transform: translateX(-50px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+`;
+
+const TaskTextWrapper = styled.div`
+  background: ${colors.white};
+  animation: ${TaskSlideIn} .2s;
+`;
+
 const Task = ({ index, task, taskStateChange }) => (
   <TaskElement>
     <TaskButton id={task.id} complete={task.complete} taskStateChange={taskStateChange} />
-    <div>
+    <TaskTextWrapper>
       <TaskText complete={task.complete}>{task.task}</TaskText>
       <TaskNumber>Task number {index+1}</TaskNumber>
-    </div>
+    </TaskTextWrapper>
   </TaskElement>
 );
 
 Task.propTypes = {
   index: PropTypes.number.isRequired,
-  taskStateChange: PropTypes.func.isRequired,
   task: PropTypes.shape({
     complete: PropTypes.bool,
     task: PropTypes.string,

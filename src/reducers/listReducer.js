@@ -37,7 +37,7 @@ const listReducer = (state = initialState, action) => {
     case REMOVE_TASK:
       return {
         ...state,
-        taskList: [...state.taskList.slice(0, state.taskList.length -1)]
+        taskList: [...state.taskList.filter(task => !task.complete)]
       };
     case CLEAR_TASKS:
       return {
