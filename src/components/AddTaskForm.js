@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,17 @@ import {
   saveTask
 } from '../actions/listActions';
 
+const SlideIn = keyframes`
+  from {
+    max-height: 0;
+  }
+  to {
+    max-height: 100%;
+  }
+`;
+
 const TaskElement = styled.li`
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -19,6 +29,7 @@ const TaskElement = styled.li`
   padding: 10px;
   border-bottom: solid 3px ${colors.shadeLight};
   transition: all .2s;
+  animation: ${SlideIn} .5s;
 `;
 
 const TaskInput = styled.input`

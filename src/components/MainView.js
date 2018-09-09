@@ -5,8 +5,8 @@ import TaskList from './taskList/TaskList';
 
 const MainView = () => (
   <Fragment>
-    <ActionButtons />
     <TaskList />
+    <ActionButtons />
   </Fragment>
 );
 
