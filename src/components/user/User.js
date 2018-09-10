@@ -58,15 +58,11 @@ const Image = styled.img`
   z-index: 10;
 `;
 
-const User = ({ isLoggedIn }) => (
+const User = ({ isLoggedIn, uname }) => (
   <UserWrapper>
     <Image src={avatar} />
     <UserMenu>
-      <p>
-      {
-        isLoggedIn ? firebase.auth().currentUser.displayName : 'User'
-      }
-      </p>
+      <p>{ uname }</p>
       {
         isLoggedIn 
         ? <ActionButton text="Logout" color="danger" action={() => firebase.auth().signOut()} icon="&#215;" />
@@ -77,11 +73,13 @@ const User = ({ isLoggedIn }) => (
 );
 
 User.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  uname: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.user.isLoggedIn
+  isLoggedIn: state.user.isLoggedIn,
+  uname: state.user.uname
 });
 
 export default connect(mapStateToProps)(User);

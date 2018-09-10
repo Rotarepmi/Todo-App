@@ -27,7 +27,11 @@ class App extends Component {
     this.loadLocalState();
 
     firebase.auth()
-      .onAuthStateChanged(user => this.props.loginStateChanged(!!user));
+      .onAuthStateChanged(user => {
+        const uid = !!user ? user.uid : null;
+        const uname = !!user ? user.displayName : null;
+        this.props.loginStateChanged(!!user, uid, uname)
+      });
   }
 
   // when component rerenders save the list to localStorage
@@ -75,8 +79,7 @@ App.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  taskList: state.list.taskList,
-  isLoggedIn: state.user.isLoggedIn
+  taskList: state.list.taskList
 });
 
 const mapDispatchToProps = {

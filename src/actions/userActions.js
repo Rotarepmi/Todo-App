@@ -1,6 +1,10 @@
-export const loginStateChanged = (isLogged) => (
+export const loginStateChanged = (isLogged, uid, uname) => (
   {
     type: 'LOGIN_STATE_CHANGED',
-    payload: isLogged
+    payload: {
+      isLogged,
+      uid,
+      uname
+    }
   }
 );
